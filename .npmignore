@@ -1,0 +1,10 @@
+.vscode/
+example/
+node_modules/
+coverage/
+__test__/
+
+*.log
+.eslintrc
+.editorConfig
+package-lock.json

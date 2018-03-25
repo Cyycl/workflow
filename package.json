@@ -1,0 +1,53 @@
+{
+  "name": "node-jigsaw",
+  "version": "0.0.1",
+  "description": "轻量级的nodejs工作流引擎",
+  "keywords": [
+    "workflow"
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git"
+  },
+  "author": "liang chen",
+  "license": "ISC",
+  "lint-staged": {
+    "src/**/*.js": "eslint",
+    "index.js": "eslint"
+  },
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "scripts": {
+    "precommit": "lint-staged",
+    "dev": "supervisor example/index.js",
+    "test": "jest --coverage",
+    "prepush": "npm run test",
+    "prepublish": "npm run test"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/visualize.js",
+      "<rootDir>/example/",
+      "<rootDir>/src/Error/"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^4.16.0",
+    "eslint-config-egg": "^6.0.0",
+    "husky": "^0.14.3",
+    "jest": "^22.4.3",
+    "koa": "^2.4.1",
+    "koa-router": "^7.4.0",
+    "lint-staged": "^6.1.0",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "supertest": "^3.0.0",
+    "supervisor": "^0.12.0"
+  },
+  "dependencies": {
+    "jsonschema": "^1.2.2",
+    "lodash": "^4.17.5"
+  }
+}
