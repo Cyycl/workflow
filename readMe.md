@@ -167,5 +167,5 @@ digraph "fsm" {
 ![](https://img.alicdn.com/tfs/TB1Wb.1f.R1BeNjy0FmXXb0wVXa-278-305.png)
 
 ## 5. TODO
-- 流程图的美化
+- 流程图的美化
 
