@@ -124,10 +124,10 @@ function workFlowFactory({ startNode, operationNodes = [], judgementNodes = [] }
   const startNodeName = startNode && startNode.name;
   // config中定义的节点
   const configNodes = [ ...operationNodes, ...judgementNodes ];
-  // config中定义的节点的名称
+  // config中定义的所有节点的名称
   let nameListOfDefinedNodes = [];
-  // config中包含的所有节点的名称列表
-  let nameListOfallNodes = [ startNodeName ]; // 有可能其他节点的next， yes 和 no 没有连接开始节点
+  // config中出现的所有节点的名称列表
+  let nameListOfallNodes = [ startNodeName ];
   const nodes = [];
   let node;
   for (const configNode of configNodes) {
@@ -138,8 +138,8 @@ function workFlowFactory({ startNode, operationNodes = [], judgementNodes = [] }
     nodes.push(node);
   }
   nameListOfallNodes = Array.from(new Set(nameListOfallNodes)); // 去重
-  nameListOfDefinedNodes = Array.from(new Set(nameListOfDefinedNodes)); // 去重
-  // 检测是否定义了所有的节点
+  nameListOfDefinedNodes = Array.from(new Set(nameListOfDefinedNodes));
+  // 检测是否有出现在配置中的节点没有定义过
   const checkResult = checkIfAllNodeDefine(nameListOfallNodes, nameListOfDefinedNodes);
   if (!checkResult.result) throw new Error(`workFlowFactory() error: the nodes of ${checkResult.list.toString()} is not configured!`);
 
