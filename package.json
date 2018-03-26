@@ -29,6 +29,7 @@
     "precommit": "lint-staged",
     "dev": "supervisor example/index.js",
     "test": "jest --coverage",
+    "ci": "jest && codecov",
     "prepush": "npm run test",
     "prepublish": "npm run test"
   },
@@ -38,7 +39,9 @@
       "<rootDir>/src/visualize.js",
       "<rootDir>/example/",
       "<rootDir>/src/Error/"
-    ]
+    ],
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   },
   "devDependencies": {
     "eslint": "^4.16.0",
