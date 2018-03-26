@@ -7,6 +7,7 @@ node_js:
 # codecov用于测试覆盖率统计
 install:
   - npm install -g codecov
+  - npm install
 
 #运行的脚本命令
 script:
