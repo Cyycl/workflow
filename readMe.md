@@ -1,5 +1,9 @@
 # node-jigsaw
 
+[![Build Status](https://travis-ci.org/Cyycl/workflow.svg?branch=master)](https://travis-ci.org/Cyycl/workflow)
+[![codecov](https://codecov.io/gh/Cyycl/workflow/branch/master/graph/badge.svg)](https://codecov.io/gh/Cyycl/workflow)
+
+
 `node-jigsaw`(节点拼图) 是一款轻量级的nodejs工作流引擎，并且可以根据配置产出工作流的流程图。
 使用流程可以概括为： 定义节点 -> 配置节点关系 -> 生成工作流 -> 产出流程图。
 详细栗子参考`example`文件夹下的例子
