@@ -87,7 +87,7 @@ const negativeNum = new OperationNode({
 });
 ```
 
-## 4.2 配置节点关系
+### 4.2 配置节点关系
 
 注意： 
 
@@ -127,7 +127,7 @@ const Wf = workFlowFactory({
 });
 ```
 
-## 4.3 生成工作流
+### 4.3 生成工作流
 
 ```js
 async function run() {
@@ -141,7 +141,7 @@ async function run() {
 run();
 ```
 
-## 4.4 生成流程图
+### 4.4 生成流程图
 
 ```js
 const {
