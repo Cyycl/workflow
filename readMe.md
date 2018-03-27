@@ -45,8 +45,8 @@
 - `name` \<String\>: 用于唯一标识该节点， 必选。
 - `description` \<String\> : 用于描述该节点，必选。
 - `handler` \<Function\>: 用于定义该节点的处理逻辑，必选。 注意：
-	- 1. 在`JudgementNode `类型的对象中`handler`方法必须返回`true`或`false`, 供工作流引擎查找下一个节点。 
-	- 2. `handler`函数有一个`ctx`的形参，是使用者在启动工作流时，传递给工作流对象的，详见 4.3 。其类似于`koa`的全局上下文，用于节点间数据的传递。
+	- 在`JudgementNode `类型的对象中`handler`方法必须返回`true`或`false`, 供工作流引擎查找下一个节点。 
+	- `handler`函数有一个`ctx`的形参，是使用者在启动工作流时，传递给工作流对象的，详见 4.3 。其类似于`koa`的全局上下文，用于节点间数据的传递。
 
 ```js
 const {
