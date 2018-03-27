@@ -5,7 +5,9 @@
 
 
 `node-jigsaw`(节点拼图) 是一款轻量级的nodejs工作流引擎，并且可以根据配置产出工作流的流程图。
-使用流程可以概括为： 定义节点 -> 配置节点关系 -> 生成工作流 -> 产出流程图。
+
+使用流程可以概括为：定义节点 -> 配置节点关系 -> 使用工作流 -> 产出流程图。
+
 详细栗子参考`example`文件夹下的例子
 
 
@@ -36,6 +38,15 @@
 ## 4. 使用说明
 
 ### 4.1 定义节点
+`node-jigsaw` 提供了普通操作节点类`OperationNode ` 和 判断节点类`JudgementNode `。
+
+这两种类都需要`name`, `description ` 和 `handler `三种初始化属性。其中：
+
+- `name` \<String\>: 用于唯一标识该节点， 必选。
+- `description` \<String\> : 用于描述该节点，必选。
+- `handler` \<Function\>: 用于定义该节点的处理逻辑，必选。 注意：
+	- 1. 在`JudgementNode `类型的对象中`handler`方法必须返回`true`或`false`, 供工作流引擎查找下一个节点。 
+	- 2. `handler`函数有一个`ctx`的形参，是使用者在启动工作流时，传递给工作流对象的，详见 4.3 。其类似于`koa`的全局上下文，用于节点间数据的传递。
 
 ```js
 const {
@@ -62,7 +73,7 @@ const asyncGetNum = new OperationNode({
   handler: getNum,
 });
 
-// 普通判断节点。handler返回结果为true时，其下游节点是节点关系中yes对应的节点，否则是no对应的节点
+// 判断节点。handler返回结果为true时，其下游节点是节点关系中yes对应的节点，否则是no对应的节点
 const isPositiveNum = new JudgementNode({
   name: 'isPositiveNum',
   description: '判断是否是正数',
@@ -78,6 +89,7 @@ const positiveNum = new OperationNode({
     console.log('正数');
   }
 });
+
 const negativeNum = new OperationNode({
   name: 'negativeNum',
   description: '是负数',
@@ -89,12 +101,22 @@ const negativeNum = new OperationNode({
 
 ### 4.2 配置节点关系
 
-注意： 
+ `workFlowFactory`是一个工厂函数，通过指定的配置，生成一个工作流类。
 
-- `普通操作节点`只有一个下游节点，由节点关系中`next`定义。
-- 工作流的叶子节点只能是`普通操作节点`, 当其`next` 为`null`时，表示该节点是叶子节点。
-- `判断节点`中handler属性函数返回结果为`true`时，其下游节点是节点关系中`yes`指向的节点，否则是`no`指向的节点
-- `判断节点`的`yes`和`no`不能为空，指向的必须是`普通操作节点`或`判断节点`。这是因为`判断节点`不可能是叶子节点，也就是说它必然有下游节点。
+ 配置的三种属性：
+ 
+ - `startNode` \<OperationNode\> | \<JudgementNode\>: 工作流的开始节点，必选。
+ - `judgementNodes`：定义工作流中出现的判断节点的关系，可选。 其中：
+ 
+ 	- `node` \<JudgementNode\>: 判断节点对象
+ 	- `yes` \<OperationNode\> | \<JudgementNode\>: 判断节点对象的`handler`函数返回值为`true`时，所指向的下一级节点
+ 	- `no` \<OperationNode\> | \<JudgementNode\>: 判断节点对象的`handler`函数返回值为`false`时，所指向的下一级节点
+
+-  `operationNodes`: 定义工作流中出现的普通节点的关系，必选(因为工作流的叶子结点必须是普通节点)。其中：
+	
+	- `node` \<OperationNode\>: 普通结点对象
+	- `next` \<OperationNode\> | \<JudgementNode\> | null: 用于定于普通结点的下一级节点，其中值为`null`时，表示该节点为工作流的叶子节点
+
 
 ```js
 const {
@@ -127,7 +149,13 @@ const Wf = workFlowFactory({
 });
 ```
 
-### 4.3 生成工作流
+### 4.3 使用工作流
+
+要使用定义好的工作流，必须要先使用`4.2`中产生的特定的工作流类`WF`来生成工作流对象。 使用工作流对象时，需要注意三点：
+
+- 需要传递一个全局上下文对象`ctx`给工作流对象，供节点间通信使用。
+- 如果包含异步处理，请务必使用`await oWf.run(ctx)`方式启动工作流。
+- 工作流对象`oWf`中的	`flowTrace`属性，可以表示出此流程所流经的节点顺序。
 
 ```js
 async function run() {
@@ -135,13 +163,15 @@ async function run() {
   const ctx = {};
   await oWf.run(ctx);  // 运行工作流
   console.log('**trace**');
-  console.log(oWf.flowTrace); // 异步获取数字 -> 判断是否是正数 -> 是负数
+  console.log(oWf.flowTrace); // 此次流程流经的节点的顺序：异步获取数字 -> 判断是否是正数 -> 是负数
 }
 
 run();
 ```
 
 ### 4.4 生成流程图
+
+`4.2` 中产生的工作流类中有一个静态属性`config`，它的值为该工作流的节点关系配置，通过 `visualize `可以生成`vizGraph`字符串，可以通过该字符串生成对应的 状态流程图。
 
 ```js
 const {
@@ -171,5 +201,5 @@ digraph "fsm" {
 ![](https://img.alicdn.com/tfs/TB1Wb.1f.R1BeNjy0FmXXb0wVXa-278-305.png)
 
 ## 5. TODO
-- 流程图的美化
+- 自动生成流程图和流程图的美化
 

@@ -43,7 +43,7 @@ module.exports = class Node {
     }
   }
 
-  addNextNode() {
-    throw new Error('subclass of Node must implement the addNextNode method');
-  }
+  // addNextNode() {
+  //   throw new Error('subclass of Node must implement the addNextNode method');
+  // }
 };
