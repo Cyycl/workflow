@@ -51,7 +51,7 @@
 ```js
 const {
   JudgementNode,
-  OperationNode,
+######   OperationNode,
 } = require('node-jigsaw');
 
 

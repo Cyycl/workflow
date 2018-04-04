@@ -28,7 +28,7 @@ class WorkFlow {
 
   _operationNodeDispatch(dispatch, nextNodeName) {
     return () => {
-      nextNodeName && this.flowTraceArr.push(this.nodes[nextNodeName].description); // 不为null时记录
+      nextNodeName && this.flowTraceArr.push(this.nodes[nextNodeName].description);
       return dispatch(nextNodeName);
     };
   }
@@ -73,7 +73,7 @@ class WorkFlow {
       // 普通节点
       if (nodeType === cons.operationNodeType) {
         const nextNodeName = node.next;
-        return Promise.resolve(_this._runHandler(handler, ctx, node)).then(_this._operationNodeDispatch(dispatch, nextNodeName).bind(_this));
+        return Promise.resolve(_this._runHandler(handler, ctx, node)).then(_this._operationNodeDispatch(dispatch, nextNodeName));
       }
       // 判断节点
       if (nodeType === cons.judgementNodeType) {
