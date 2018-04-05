@@ -33,4 +33,12 @@ module.exports = class OperationNode extends Node {
     }
     this.next = next.name;
   }
+
+  /**
+   * @param {Object} node 表示本节点，其中next表示下游节点名称
+   * @return {String | null} 下一个节点名称，如果为null，表示该节点为叶子节点
+   */
+  goToNextNode(node) {
+    return node.next;
+  }
 };

@@ -29,4 +29,16 @@ module.exports = class JudgementNode extends Node {
     this.yes = yes && yes.name;
     this.no = no && no.name;
   }
+
+  /**
+   * @param {Object} node 表示本节点，其中yes表示result为true的下游节点名称，no相反
+   * @param {Boolean} result handler返回的结果
+   * @return {String} 返回现一个节点的名称
+   */
+  goToNextNode(node, result) {
+    if (result) {
+      return node.yes;
+    }
+    return node.no;
+  }
 };

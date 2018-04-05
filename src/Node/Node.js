@@ -43,7 +43,13 @@ module.exports = class Node {
     }
   }
 
+  // 为了实现多态，addNextNode 和 goToNextNode 相当于两个抽象方法，子类必须要实现
+  // 注释掉是因为现在只需要普通节点和判断节点这两个节点类就可以支持比较复杂的流程定义，暂时不需要扩展其他节点类，也就懒得写测试用例覆盖这块了
   // addNextNode() {
   //   throw new Error('subclass of Node must implement the addNextNode method');
+  // }
+
+  // goToNextNode() {
+  //   throw new Error('subclass of Node must implement the goToNextNode method');
   // }
 };

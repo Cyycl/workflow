@@ -1,5 +1,4 @@
 'use strict';
-const cons = require('./Node/nodeType');
 const _ = require('lodash');
 
 class WorkFlow {
@@ -26,22 +25,10 @@ class WorkFlow {
     return nodeMap;
   }
 
-  _operationNodeDispatch(dispatch, nextNodeName) {
-    return () => {
-      nextNodeName && this.flowTraceArr.push(this.nodes[nextNodeName].description);
-      return dispatch(nextNodeName);
-    };
-  }
-
-  _judgementNodeDispatch(dispatch, yesNodeName, noNodeName) {
+  _goToNextNode(dispatch, node) {
     return result => {
-      let nextNodeName;
-      if (result) {
-        nextNodeName = yesNodeName;
-      } else {
-        nextNodeName = noNodeName;
-      }
-      this.flowTraceArr.push(this.nodes[nextNodeName].description);
+      const nextNodeName = node.goToNextNode(node, result);
+      nextNodeName && this.flowTraceArr.push(this.nodes[nextNodeName].description);
       return dispatch(nextNodeName);
     };
   }
@@ -68,19 +55,8 @@ class WorkFlow {
         return Promise.resolve();
       }
       const node = _this.nodes[nodeName];
-      const nodeType = node.type;
       const handler = node.handler;
-      // 普通节点
-      if (nodeType === cons.operationNodeType) {
-        const nextNodeName = node.next;
-        return Promise.resolve(_this._runHandler(handler, ctx, node)).then(_this._operationNodeDispatch(dispatch, nextNodeName));
-      }
-      // 判断节点
-      if (nodeType === cons.judgementNodeType) {
-        const yesNodeName = node.yes;
-        const noNodeName = node.no;
-        return Promise.resolve(_this._runHandler(handler, ctx, node)).then(_this._judgementNodeDispatch(dispatch, yesNodeName, noNodeName));
-      }
+      return Promise.resolve(_this._runHandler(handler, ctx, node)).then(_this._goToNextNode(dispatch, node));
     }
   }
 }
