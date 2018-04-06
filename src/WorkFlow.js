@@ -1,5 +1,5 @@
 'use strict';
-const _ = require('lodash');
+const omit = require('lodash.omit');
 
 class WorkFlow {
   constructor({ startNodeName = '', nodes = [] } = {}) {
@@ -63,7 +63,7 @@ class WorkFlow {
 
 function configureNextNode(obj = {}) {
   const node = Object.create(obj.node); // 避免副作用
-  const nextNodeConfig = _.omit(obj, 'node');
+  const nextNodeConfig = omit(obj, 'node');
   node.addNextNode(nextNodeConfig);
   return node;
 }
