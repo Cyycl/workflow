@@ -19,7 +19,7 @@
 
 ps：上面流程图是根据http://127.0.0.1:3000/visualize生成的字符串，在 https://dreampuf.github.io/GraphvizOnline/ 上画出来的
 
-2.1 节点函数(nodes/**/*.js)的说明
+`2.1`节点函数(nodes/**/*.js)的说明
 
 - judgementNode
   - checkIfLogin.js: 是否登录
@@ -36,5 +36,5 @@ ps：上面流程图是根据http://127.0.0.1:3000/visualize生成的字符串�
 
 3. 启动说明
 
-    在项目根目录下，npm install  ->  npm run dev
+    在项目根目录下, npm install  ->  npm run dev
 
