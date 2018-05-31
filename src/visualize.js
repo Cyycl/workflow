@@ -1,17 +1,39 @@
 'use strict';
-let nodeMap;
+const {
+  operationNodeType,
+  judgementNodeType,
+} = require('./Node/nodeType');
 
-function getGraphNode(node) {
-  return node && node.description;
+let nodeMap;
+const shapeMap = {
+  [judgementNodeType]: 'diamond',
+  [operationNodeType]: 'box',
+};
+const colorMap = {
+  [judgementNodeType]: 'lightgrey',
+  [operationNodeType]: '',
+};
+const style = {
+  [judgementNodeType]: 'filled',
+  [operationNodeType]: '',
+};
+function getGraphNode(node = {}) {
+  return {
+    name: node.name,
+    description: node.description,
+    shape: shapeMap[node.type],
+    color: colorMap[node.type],
+    style: style[node.type],
+  };
 }
 
 function getGraphLine(node) {
-  const from = node.description;
+  const from = node.name;
   if (node.next) {
     return [
       {
         from,
-        to: nodeMap[node.next].description,
+        to: nodeMap[node.next].name,
         label: '',
       },
     ];
@@ -21,12 +43,12 @@ function getGraphLine(node) {
     return [
       {
         from,
-        to: nodeMap[node.yes].description,
+        to: nodeMap[node.yes].name,
         label: 'yes',
       },
       {
         from,
-        to: nodeMap[node.no].description,
+        to: nodeMap[node.no].name,
         label: 'no',
       },
     ];
@@ -45,7 +67,7 @@ function formatIntoVizFormat(graphNodeList, graphLineList) {
   let nodeStr = '';
   let lineStr = '';
   for (const node of graphNodeList) {
-    nodeStr += `"${node}";
+    nodeStr += `"${node.name}"[label="${node.description}" shape="${node.shape}" color="${node.color}" style="${node.style}"];
     `; // 换行
   }
   for (const line of graphLineList) {
