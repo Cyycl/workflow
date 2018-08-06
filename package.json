@@ -1,6 +1,6 @@
 {
   "name": "node-jigsaw",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "轻量级的nodejs工作流引擎",
   "keywords": [
     "workflow"
