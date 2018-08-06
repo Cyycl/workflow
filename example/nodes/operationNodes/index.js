@@ -7,4 +7,7 @@ module.exports = {
   noSmartAuth: require('./noSmartAuth'),
   getBrandList: require('./getBrandList'),
   noBrandAuth: require('./noBrandAuth'),
+  asyncGetNum: require('./asyncGetNum'),
+  negativeNum: require('./negativeNum'),
+  positiveNum: require('./positiveNum'),
 };

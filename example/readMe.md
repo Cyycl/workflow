@@ -15,7 +15,7 @@
 
 `example`描述的流程如下图所示：
 
-![整体流程图](https://img.alicdn.com/tfs/TB1tAQPf_tYBeNjy1XdXXXXyVXa-676-778.png)
+![整体流程图](https://img.alicdn.com/tfs/TB1eJJIci6guuRjy1XdXXaAwpXa-576-778.png)
 
 ps：上面流程图是根据http://127.0.0.1:3000/visualize生成的字符串，在 https://dreampuf.github.io/GraphvizOnline/ 上画出来的
 

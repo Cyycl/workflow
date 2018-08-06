@@ -4,6 +4,7 @@ const {
   checkIfLogin,
   checkSmartId,
   checkBrandId,
+  isPositiveNum,
 } = require('./nodes/judgementNodes');
 const {
   getSmartList,
@@ -12,10 +13,13 @@ const {
   noSmartAuth,
   getBrandList,
   noBrandAuth,
+  asyncGetNum,
+  negativeNum,
+  positiveNum,
 } = require('./nodes/operationNodes');
 const { workFlowFactory } = require('../index');
 
-const WF = workFlowFactory({
+const ComplexWF = workFlowFactory({
   startNode: checkIfLogin,
   operationNodes: [
     { node: getSmartList, next: checkSmartId },
@@ -32,4 +36,32 @@ const WF = workFlowFactory({
   ],
 });
 
-module.exports = WF;
+const SimpleWF = workFlowFactory({
+  startNode: asyncGetNum,
+  judgementNodes: [
+    {
+      node: isPositiveNum,
+      yes: positiveNum,
+      no: negativeNum,
+    },
+  ],
+  operationNodes: [
+    {
+      node: asyncGetNum,
+      next: isPositiveNum,
+    },
+    {
+      node: positiveNum,
+      next: null,
+    },
+    {
+      node: negativeNum,
+      next: null,
+    },
+  ],
+});
+
+module.exports = {
+  ComplexWF,
+  SimpleWF,
+};

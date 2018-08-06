@@ -1,20 +1,39 @@
 'use strict';
 const Koa = require('koa');
 const Router = require('koa-router');
-const WF = require('./config');
+const {
+  ComplexWF: WF,
+  SimpleWF,
+} = require('./config');
 const { visualize } = require('../index');
 
 const app = module.exports = new Koa();
 const router = new Router();
+
+// 判断是否是正数
+router.get('/simple/visualize', async ctx => {
+  const vizGraphStr = visualize(SimpleWF.config); // 流程图，流程图在线生成网站：https://dreampuf.github.io/GraphvizOnline/
+  ctx.body = vizGraphStr;
+});
+router.get('/simple', async ctx => {
+  try {
+    const oWf = new SimpleWF();
+    await oWf.run(ctx);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // 流程可视化
 router.get('/visualize', async ctx => {
-  const vizGraphStr = visualize(WF.config); // 流程图，流程图在线生成网站：https://dreampuf.github.io/GraphvizOnline/
+  const vizGraphStr = visualize(WF.config);
   ctx.body = vizGraphStr;
 });
 // 没有登录
 router.get('/login', async ctx => {
   try {
-    ctx.isLogin = false; const oWf = new WF();
+    ctx.isLogin = false;
+    const oWf = new WF();
     await oWf.run(ctx);
   } catch (error) {
     console.log('error of not login', error);

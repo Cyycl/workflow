@@ -185,20 +185,20 @@ const graphStr = visualize(Wf.config)
 
 ```
 digraph "fsm" {
-  "异步获取数字";
-  "是正数";
-  "是负数";
-  "判断是否是正数";
-
-  "异步获取数字" -> "判断是否是正数"[label = ""];
-  "判断是否是正数" -> "是正数"[label = "yes"];
-  "判断是否是正数" -> "是负数"[label = "no"];
-}
+    "asyncGetNum"[label="异步获取数字" shape="box" color="" style=""];
+    "positiveNum"[label="是正数" shape="box" color="" style=""];
+    "negativeNum"[label="是负数" shape="box" color="" style=""];
+    "isPositiveNum"[label="判断是否是正数" shape="diamond" color="lightgrey" style="filled"];
+    
+    "asyncGetNum" -> "isPositiveNum" [ label = ""];
+    "isPositiveNum" -> "positiveNum" [ label = "yes"];
+    "isPositiveNum" -> "negativeNum" [ label = "no"];
+  }
 ```
 
 将`graphStr`粘贴到 https://dreampuf.github.io/GraphvizOnline/ 上，可以生成对应的流程图，如下：
 
-![](https://img.alicdn.com/tfs/TB1Wb.1f.R1BeNjy0FmXXb0wVXa-278-305.png)
+![](https://img.alicdn.com/tfs/TB1sl3BJkCWBuNjy0FaXXXUlXXa-361-379.png)
 
 ## 5. TODO
 - 自动生成流程图和流程图的美化
