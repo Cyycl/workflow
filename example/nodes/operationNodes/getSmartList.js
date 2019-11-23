@@ -5,7 +5,7 @@ const rq = require('request-promise-native');
 
 async function handler(ctx) {
   const res = await rq({
-    uri: 'http://rap2api.taobao.org/app/mock/7782/GET/getGroups',
+    uri: 'http://rap2api.taobao.org/app/mock/237659/getGroups',
     json: true,
   });
   const data = res.data;
